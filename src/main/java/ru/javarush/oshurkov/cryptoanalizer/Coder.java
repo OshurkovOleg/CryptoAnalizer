@@ -3,7 +3,7 @@ package ru.javarush.oshurkov.cryptoanalizer;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.nio.file.Files.newBufferedReader;
 import static java.nio.file.Files.newBufferedWriter;
@@ -11,22 +11,30 @@ import static java.nio.file.Files.newBufferedWriter;
 
 public class Coder {
 
-    //    public static final String ALPHABET = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя.,\"\":-!? ";
+    private static final List<Character> ALPHABET = Arrays.asList('а', 'б', 'в',
+            'г', 'д', 'е', 'ж', 'з', 'и', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у',
+            'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'я', '.', ',', '«', '»',
+            ':', '!', '?', ' ');
+
     public static final String FILE_NOT_FOUND = "Файл не существует, повторите попытку \n";
     public static final String NOT_FOUND_KEY = "Ключ выходит за пределы допустимых значений, повторите попытку \n";
     public static final String NOT_FOUND_NUMBER = "Введено не число, укажите число в уканных пределах \n";
+    static Path pathToCodingFile;
+    static Path pathToEncodingFile;
+    static int key;
+    static char codeChar = 0;
+    static Scanner scannerConsole = new Scanner(System.in);
 
     public static void main(String[] args) {
 
-        Scanner scannerConsole = new Scanner(System.in);
-        Path pathToCodingFile;
-        Path pathToEncodingFile;
-        int key;
+        System.out.println("Доброе пожаловать в программу для шифрования информации.");
+        System.out.println("========================================================");
+        System.out.println();
 
 
 //        Указываем пути к файлам и проверяем их на наличие файла по указанному пути
         while (true) {
-            System.out.println("Введите путь до файла для шифрования");
+            System.out.print("Укажите путь до исполняемого файла: ");
             pathToCodingFile = Path.of(scannerConsole.nextLine());
             if (!Files.isRegularFile(pathToCodingFile)) {
                 System.out.println(FILE_NOT_FOUND);
@@ -36,7 +44,7 @@ public class Coder {
         }
 
         while (true) {
-            System.out.println("Введите путь до файла для расшифровки");
+            System.out.print("Укажите путь до файла с результатом выполнения: ");
             pathToEncodingFile = Path.of(scannerConsole.nextLine());
             if (!Files.isRegularFile(pathToEncodingFile)) {
                 System.out.println(FILE_NOT_FOUND);
@@ -65,15 +73,56 @@ public class Coder {
 
         } while (true);
 
-        // Запускаем процесс чтение и записи в указанные файлы
 
- /*       try (BufferedReader readeOfCodingFile = newBufferedReader(pathToCodingFile);
+        // Кодируем текст
+
+/*        try (BufferedReader readeOfCodingFile = newBufferedReader(pathToCodingFile);
              BufferedWriter writeOfEncodingFile = newBufferedWriter(pathToEncodingFile)) {
+
+
+            while (readeOfCodingFile.ready()) {
+                char a = Character.toLowerCase((char) readeOfCodingFile.read());
+
+                if (ALPHABET.contains(a)) {
+                    for (int i = 0; i < ALPHABET.size(); i++) {
+                        codeChar = ALPHABET.get((ALPHABET.indexOf(a) + key) % ALPHABET.size());
+                        writeOfEncodingFile.write(codeChar);
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw new ExceptionProject("Проблема > " + e);
+        }*/
+
+
+        // Расшифровать текст используя ключ
+
+/*        try (BufferedReader readeOfCodingFile = newBufferedReader(pathToCodingFile);
+             BufferedWriter writeOfEncodingFile = newBufferedWriter(pathToEncodingFile)) {
+
+            Collections.reverse(ALPHABET);
+
+            while (readeOfCodingFile.ready()) {
+
+                char b = Character.toLowerCase((char) readeOfCodingFile.read());
+
+                if (ALPHABET.contains(b)) {
+
+                    for (int i = 0; i < ALPHABET.size(); i++) {
+                        codeChar = ALPHABET.get((ALPHABET.indexOf(b) + key) % ALPHABET.size());
+                        writeOfEncodingFile.write(codeChar);
+                        break;
+                    }
+                }
+
+            }
 
 
         } catch (IOException e) {
             throw new ExceptionProject("Проблема > " + e);
         }*/
+
 
     }
 }
