@@ -21,12 +21,13 @@ public class Coder {
     public static final String NOT_FOUND_NUMBER = "Введено не число, укажите число в уканных пределах \n";
     static Path pathToCodingFile;
     static Path pathToEncodingFile;
-    static int key;
+    static int key = 0;
     static char codeChar = 0;
     static Scanner scannerConsole = new Scanner(System.in);
 
     public static void main(String[] args) {
 
+/*
         System.out.println("Доброе пожаловать в программу для шифрования информации.");
         System.out.println("========================================================");
         System.out.println();
@@ -56,12 +57,12 @@ public class Coder {
         // Задаем ключ шифрования в пределах от 1 до 127
         do {
             scannerConsole.nextLine();
-            System.out.print("Укажите ключ шифрования от 1 до 127 = ");
+            System.out.print("Укажите ключ шифрования от 0 до " + (ALPHABET.size() - 1) + " : ");
 
             if (scannerConsole.hasNextInt()) {
                 key = scannerConsole.nextInt();
 
-                if (key < 1 || key > 127) {
+                if (key < 0 || key > (ALPHABET.size() - 1)) {
                     System.out.println(NOT_FOUND_KEY);
                 } else {
                     break;
@@ -72,8 +73,10 @@ public class Coder {
             }
 
         } while (true);
+*/
 
 
+//**************************************************************************************************
         // Кодируем текст
 
 /*        try (BufferedReader readeOfCodingFile = newBufferedReader(pathToCodingFile);
@@ -84,11 +87,8 @@ public class Coder {
                 char a = Character.toLowerCase((char) readeOfCodingFile.read());
 
                 if (ALPHABET.contains(a)) {
-                    for (int i = 0; i < ALPHABET.size(); i++) {
                         codeChar = ALPHABET.get((ALPHABET.indexOf(a) + key) % ALPHABET.size());
                         writeOfEncodingFile.write(codeChar);
-                        break;
-                    }
                 }
             }
         } catch (IOException e) {
@@ -96,9 +96,11 @@ public class Coder {
         }*/
 
 
+//*****************************************************************************************************
         // Расшифровать текст используя ключ
 
-/*        try (BufferedReader readeOfCodingFile = newBufferedReader(pathToCodingFile);
+/*
+        try (BufferedReader readeOfCodingFile = newBufferedReader(pathToCodingFile);
              BufferedWriter writeOfEncodingFile = newBufferedWriter(pathToEncodingFile)) {
 
             Collections.reverse(ALPHABET);
@@ -108,21 +110,40 @@ public class Coder {
                 char b = Character.toLowerCase((char) readeOfCodingFile.read());
 
                 if (ALPHABET.contains(b)) {
-
-                    for (int i = 0; i < ALPHABET.size(); i++) {
                         codeChar = ALPHABET.get((ALPHABET.indexOf(b) + key) % ALPHABET.size());
                         writeOfEncodingFile.write(codeChar);
-                        break;
-                    }
                 }
-
             }
+        } catch (IOException e) {
+            throw new ExceptionProject("Проблема > " + e);
+        }
+*/
 
 
+//***********************************************************************************************************
+        // Взлом закодиранного текста с перебором ключа
+
+
+/*        try (BufferedReader readeOfCodingFile = newBufferedReader(Path.of("C:\\test\\file.txt"));
+             BufferedWriter writeOfEncodingFile = newBufferedWriter(Path.of("C:\\test\\result.txt"))) {
+
+            int hackKey = 0;
+            Collections.reverse(ALPHABET);
+
+            while (readeOfCodingFile.ready()) {
+
+                char b = Character.toLowerCase((char) readeOfCodingFile.read());
+
+                if (ALPHABET.contains(b)) {
+                        codeChar = ALPHABET.get((ALPHABET.indexOf(b) + hackKey) % ALPHABET.size());
+                        writeOfEncodingFile.write(codeChar);
+
+
+                }
+            }
         } catch (IOException e) {
             throw new ExceptionProject("Проблема > " + e);
         }*/
-
 
     }
 }
