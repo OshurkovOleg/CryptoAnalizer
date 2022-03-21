@@ -21,8 +21,9 @@ public class Coder {
     public static final String FILE_NOT_FOUND = "Файл не существует, повторите попытку \n";
     public static final String NOT_FOUND_KEY = "Ключ выходит за пределы допустимых значений, повторите попытку \n";
     public static final String NOT_FOUND_NUMBER = "Введено не число, укажите число в уканных пределах \n";
-    static Path pathToCodingFile;
-    static Path pathToEncodingFile;
+    public static final String WHERE_SAVE_RESULT = "Куда будем сохранять результат ? \n";
+    static Path pathToSourceFile;
+    static Path pathToFileOfResult;
     static int key = 0;
     static char codeChar = 0;
     static char uncodeChar = 0;
@@ -35,60 +36,23 @@ public class Coder {
 
     public static void main(String[] args) {
 
-        System.out.println("Доброе пожаловать в программу для кодирования текста.");
-        System.out.println("========================================================");
-        System.out.println();
-
-        bruteForce();
-
-
+        
     }
 
 
-    static public void codingText() {
-        while (true) {
-            System.out.print("Укажите путь до файла который будем кодировать: ");
-            pathToCodingFile = Path.of(scannerConsole.nextLine());
-            if (!Files.isRegularFile(pathToCodingFile)) {
-                System.out.println(FILE_NOT_FOUND);
-            } else {
-                break;
-            }
-        }
+    static public void codingTextFromFile() {
 
-        while (true) {
-            System.out.print("Укажите путь и название файла куда будем сохранять результат : ");
-            pathToEncodingFile = Path.of(scannerConsole.nextLine());
-            if (!Files.isRegularFile(pathToEncodingFile)) {
-                System.out.println(FILE_NOT_FOUND);
-            } else {
-                break;
-            }
-        }
+        System.out.println("Какой файл будем кодировать ?");
+        pathToSourceFile = pathOfFileSource();
 
-        do {
-            scannerConsole.nextLine();
-            System.out.print("Укажите ключ кодировки текста от 0 до " + (ALPHABET.size() - 1) + " : ");
+        System.out.println(WHERE_SAVE_RESULT);
+        pathToFileOfResult = pathOfFileResult();
 
-            if (scannerConsole.hasNextInt()) {
-                key = scannerConsole.nextInt();
-
-                if (key < 0 || key > (ALPHABET.size() - 1)) {
-                    System.out.println(NOT_FOUND_KEY);
-                } else {
-                    break;
-                }
-
-            } else {
-                System.out.println(NOT_FOUND_NUMBER);
-            }
-
-        } while (true);
+        setKeyPasswordCoding();
 
 
-        try (BufferedReader readeOfCodingFile = newBufferedReader(pathToCodingFile);
-             BufferedWriter writeOfEncodingFile = newBufferedWriter(pathToEncodingFile)) {
-
+        try (BufferedReader readeOfCodingFile = newBufferedReader(pathToSourceFile);
+             BufferedWriter writeOfEncodingFile = newBufferedWriter(pathToFileOfResult)) {
 
             while (readeOfCodingFile.ready()) {
                 char a = Character.toLowerCase((char) readeOfCodingFile.read());
@@ -104,48 +68,19 @@ public class Coder {
     }
 
 
-    static public void uncodingText() {
-        while (true) {
-            System.out.print("Укажите путь до файла который будем раскодировать: ");
-            pathToCodingFile = Path.of(scannerConsole.nextLine());
-            if (!Files.isRegularFile(pathToCodingFile)) {
-                System.out.println(FILE_NOT_FOUND);
-            } else {
-                break;
-            }
-        }
+    static public void uncodingTextFromFile() {
 
-        while (true) {
-            System.out.print("Укажите путь и название файла куда будем сохранять результат : ");
-            pathToEncodingFile = Path.of(scannerConsole.nextLine());
-            if (!Files.isRegularFile(pathToEncodingFile)) {
-                System.out.println(FILE_NOT_FOUND);
-            } else {
-                break;
-            }
-        }
+        System.out.println("Какой файл будем раскодировать ?");
+        pathToSourceFile = pathOfFileSource();
 
-        do {
-            scannerConsole.nextLine();
-            System.out.print("Укажите ключ для раскодирования текста : ");
+        System.out.println(WHERE_SAVE_RESULT);
+        pathToFileOfResult = pathOfFileResult();
 
-            if (scannerConsole.hasNextInt()) {
-                key = scannerConsole.nextInt();
+        setKeyPasswordCoding();
 
-                if (key < 0 || key > (ALPHABET.size() - 1)) {
-                    System.out.println(NOT_FOUND_KEY);
-                } else {
-                    break;
-                }
 
-            } else {
-                System.out.println(NOT_FOUND_NUMBER);
-            }
-
-        } while (true);
-
-        try (BufferedReader readeOfCodingFile = newBufferedReader(pathToCodingFile);
-             BufferedWriter writeOfEncodingFile = newBufferedWriter(pathToEncodingFile)) {
+        try (BufferedReader readeOfCodingFile = newBufferedReader(pathToSourceFile);
+             BufferedWriter writeOfEncodingFile = newBufferedWriter(pathToFileOfResult)) {
 
             Collections.reverse(ALPHABET);
 
@@ -166,30 +101,17 @@ public class Coder {
 
     static public void bruteForce() {
 
-        while (true) {
-            System.out.print("Укажите путь до файла который будем взламывать: ");
-            pathToCodingFile = Path.of(scannerConsole.nextLine());
-            if (!Files.isRegularFile(pathToCodingFile)) {
-                System.out.println(FILE_NOT_FOUND);
-            } else {
-                break;
-            }
-        }
+        System.out.println("Какой файл будем взламывать?");
+        pathToSourceFile = pathOfFileSource();
 
-        while (true) {
-            System.out.print("Укажите путь и название файла куда будем сохранять результат взлома : ");
-            pathToEncodingFile = Path.of(scannerConsole.nextLine());
-            if (!Files.isRegularFile(pathToEncodingFile)) {
-                System.out.println(FILE_NOT_FOUND);
-            } else {
-                break;
-            }
-        }
+        System.out.print(WHERE_SAVE_RESULT);
+        pathToFileOfResult = pathOfFileResult();
 
-        try (BufferedReader readeOfCodingFile = newBufferedReader(pathToCodingFile);
-             BufferedWriter writeOfEncodingFile = newBufferedWriter(pathToEncodingFile)) {
+        Collections.reverse(ALPHABET);
 
-            Collections.reverse(ALPHABET);
+        try (BufferedReader readeOfCodingFile = newBufferedReader(pathToSourceFile);
+             BufferedWriter writeOfEncodingFile = newBufferedWriter(pathToFileOfResult)) {
+
 
             while (readeOfCodingFile.ready()) {
                 char symbol = Character.toLowerCase((char) readeOfCodingFile.read());
@@ -213,7 +135,6 @@ public class Coder {
                     }
                 }
 
-
                 if (count > 3) {
                     writeOfEncodingFile.write(strRes);
                     break;
@@ -231,4 +152,57 @@ public class Coder {
         }
 
     }
+
+
+    public static Path pathOfFileSource() {
+        Path path;
+        while (true) {
+            System.out.print("Укажите путь до файла: ");
+            path = Path.of(scannerConsole.nextLine());
+            if (!Files.isRegularFile(path)) {
+                System.out.println(FILE_NOT_FOUND);
+            } else {
+                break;
+            }
+        }
+        return path;
+    }
+
+    public static Path pathOfFileResult() {
+        Path path;
+        while (true) {
+            System.out.print("Укажите путь до файла: ");
+            path = Path.of(scannerConsole.nextLine());
+            if (!Files.isRegularFile(path)) {
+                System.out.println(FILE_NOT_FOUND);
+            } else {
+                break;
+            }
+        }
+        return path;
+    }
+
+    public static void setKeyPasswordCoding() {
+
+        do {
+            scannerConsole.nextLine();
+            System.out.print("Укажите ключ, которым будем кодировать/раскодировать текст, значение от 0 до " + (ALPHABET.size() - 1) + " : ");
+
+            if (scannerConsole.hasNextInt()) {
+                key = scannerConsole.nextInt();
+
+                if (key < 0 || key > (ALPHABET.size() - 1)) {
+                    System.out.println(NOT_FOUND_KEY);
+                } else {
+                    break;
+                }
+
+            } else {
+                System.out.println(NOT_FOUND_NUMBER);
+            }
+
+        } while (true);
+    }
+
+
 }
