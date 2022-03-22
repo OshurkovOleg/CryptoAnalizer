@@ -1,5 +1,7 @@
 package ru.javarush.oshurkov.cryptoanalizer;
 
+import ru.javarush.oshurkov.cryptoanalizer.exceptions.AppException;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -61,7 +63,7 @@ public class Coder {
                 }
             }
         } catch (IOException e) {
-            throw new ExceptionProject("Проблема > " + e);
+            throw new AppException("Проблема > " + e);
         }
     }
 
@@ -92,7 +94,7 @@ public class Coder {
                 }
             }
         } catch (IOException e) {
-            throw new ExceptionProject("Проблема > " + e);
+            throw new AppException("Проблема > " + e);
         }
     }
 
@@ -146,7 +148,7 @@ public class Coder {
                 }
             }
         } catch (IOException e) {
-            throw new ExceptionProject("Проблема > " + e);
+            throw new AppException("Проблема > " + e);
         }
 
     }

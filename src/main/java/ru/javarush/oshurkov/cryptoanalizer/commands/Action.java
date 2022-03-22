@@ -1,4 +1,9 @@
 package ru.javarush.oshurkov.cryptoanalizer.commands;
 
-public class Action {
+import ru.javarush.oshurkov.cryptoanalizer.entity.Result;
+
+public interface Action {
+
+    Result execute(String[] parameters);
 }
+

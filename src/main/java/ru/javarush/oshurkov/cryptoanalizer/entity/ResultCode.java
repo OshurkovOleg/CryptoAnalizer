@@ -1,4 +1,5 @@
 package ru.javarush.oshurkov.cryptoanalizer.entity;
 
-public class ResultCode {
+public enum ResultCode {
+    OK,ERROR
 }
