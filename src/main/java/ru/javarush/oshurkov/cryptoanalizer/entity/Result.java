@@ -15,7 +15,7 @@ public class Result {
     @Override
     public String toString() {
         return "Результат: " +
-                "Выполнена команда = " + message  +
-                ", Статус = " + resultCode ;
+                "Команда =" + message  +
+                ", Статус выполнения = " + resultCode ;
     }
 }

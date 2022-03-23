@@ -80,7 +80,10 @@ public class ConsoleRunner {
                         } catch (IOException e) {
                             throw new AppException("Проблема при создании файла > " + e);
                         }
-                        System.out.println("По указанному пути файл не существует, мы создали его для вас.\n");
+                        System.out.println("\nПо указанному пути файл не существует, но мы создали его для вас.\n" +
+                                "Если вами был указан полный путь, то файл вы найдёте по этому пути.\n" +
+                                "Если указали только название файла, то файл будет создан в корне проекта-программы.\n");
+
                     }
 
 
@@ -94,7 +97,7 @@ public class ConsoleRunner {
                         } else if (args[3].isEmpty()) {
                             System.out.println("Нельзя шифровать без ключа, повторите ввод.\n");
                         } else if (Integer.parseInt(args[3]) < 0 || Integer.parseInt(args[3]) > (ALPHABET.size() - 1)) {
-                            System.out.println("Указанное значение не доступно. \n" );
+                            System.out.println("Указанное значение не доступно. \n");
                         } else {
                             break;
                         }
@@ -137,7 +140,9 @@ public class ConsoleRunner {
                         } catch (IOException e) {
                             throw new AppException("Проблема при создании файла > " + e);
                         }
-                        System.out.println("По указанному пути файл не существует, мы создали его для вас.\n");
+                        System.out.println("\nПо указанному пути файл не существует, но мы создали его для вас.\n" +
+                                "Если вами был указан полный путь, то файл вы найдёте по этому пути.\n" +
+                                "Если указали только название файла, то файл будет создан в корне проекта-программы.\n");
                     }
 
 
@@ -150,7 +155,7 @@ public class ConsoleRunner {
                         } else if (args[3].isEmpty()) {
                             System.out.println("Нельзя шифровать без ключа, повторите ввод.\n");
                         } else if (Integer.parseInt(args[3]) < 0 || Integer.parseInt(args[3]) > (ALPHABET.size() - 1)) {
-                            System.out.println("Пожалуйста." + KEY_ENCRYPTION);
+                            System.out.println("Указанное значение не доступно. \n");
                         } else {
                             break;
                         }
