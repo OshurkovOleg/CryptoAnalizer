@@ -20,5 +20,9 @@ public class Constants {
     public static final String PATH_TO_DEFAULT_ENCRYPTION = "text\\encrypted.txt";
     public static final String PATH_TO_DEFAULT_DECRYPTION = "text\\decrypted.txt";
     public static final String PATH_TO_DEFAULT_BRUTEFORCE = "text\\bruteforce.txt";
+    public static final String FILE_NOT_FOUND = "По указанному пути файл не существует, повторите попытку.\n";
+    public static final String FILE_NOT_FOUND_AND_CREATE = "\nПо указанному пути файл не существует, но мы создали его для вас.\n" +
+            "Если вами был указан полный путь, то файл вы найдёте по этому пути.\n" +
+            "Если указали только название файла, то файл будет создан в корне проекта-программы.\n";
 
 }

@@ -9,7 +9,6 @@ import ru.javarush.oshurkov.cryptoanalizer.exceptions.AppException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -27,7 +26,6 @@ public class ConsoleRunner {
         System.out.println("Укажите одну из доступных команд: " + Actions.ENCODE + ", "
                 + Actions.DECODE + ", "
                 + Actions.BRUTEFORCE + ", для выхода exit. \n");
-
 
         // command request
         while (true) {
@@ -58,7 +56,7 @@ public class ConsoleRunner {
                             args[1] = PATH_TO_DEFAULT_TEXT;
                             break;
                         } else if (!Files.exists(Path.of(args[1]))) {
-                            System.out.println("По указанному пути файл не существует, повторите попытку.\n");
+                            System.out.println(FILE_NOT_FOUND);
                         } else {
                             break;
                         }
@@ -80,9 +78,7 @@ public class ConsoleRunner {
                         } catch (IOException e) {
                             throw new AppException("Проблема при создании файла > " + e);
                         }
-                        System.out.println("\nПо указанному пути файл не существует, но мы создали его для вас.\n" +
-                                "Если вами был указан полный путь, то файл вы найдёте по этому пути.\n" +
-                                "Если указали только название файла, то файл будет создан в корне проекта-программы.\n");
+                        System.out.println(FILE_NOT_FOUND_AND_CREATE);
 
                     }
 
@@ -119,7 +115,7 @@ public class ConsoleRunner {
                             args[1] = PATH_TO_DEFAULT_ENCRYPTION;
                             break;
                         } else if (!Files.exists(Path.of(args[1]))) {
-                            System.out.println("По указанному пути файл не существует, повторите попытку.\n");
+                            System.out.println(FILE_NOT_FOUND);
                         } else {
                             break;
                         }
@@ -140,9 +136,7 @@ public class ConsoleRunner {
                         } catch (IOException e) {
                             throw new AppException("Проблема при создании файла > " + e);
                         }
-                        System.out.println("\nПо указанному пути файл не существует, но мы создали его для вас.\n" +
-                                "Если вами был указан полный путь, то файл вы найдёте по этому пути.\n" +
-                                "Если указали только название файла, то файл будет создан в корне проекта-программы.\n");
+                        System.out.println(FILE_NOT_FOUND_AND_CREATE);
                     }
 
 
@@ -177,7 +171,7 @@ public class ConsoleRunner {
                             args[1] = PATH_TO_DEFAULT_ENCRYPTION;
                             break;
                         } else if (!Files.exists(Path.of(args[1]))) {
-                            System.out.println("По указанному пути файл не существует, повторите попытку.\n");
+                            System.out.println(FILE_NOT_FOUND);
                         } else {
                             break;
                         }
@@ -197,7 +191,7 @@ public class ConsoleRunner {
                         } catch (IOException e) {
                             throw new AppException("Проблема при создании файла > " + e);
                         }
-                        System.out.println("По указанному пути файл не существует, мы создали его для вас.\n");
+                        System.out.println(FILE_NOT_FOUND_AND_CREATE);
                     }
                 }
 
@@ -212,3 +206,5 @@ public class ConsoleRunner {
         }
     }
 }
+
+//release version 1.0.0.2 (done testing and refactoring code)
