@@ -26,15 +26,14 @@ public class BruteForce implements Action {
 
         List<Character> listCharText = new ArrayList<>();
         char encryptedChar;
-        int hackKey = 0;
+        int hackKey = 1;
         int hitCounter = 0;
         StringBuilder str = new StringBuilder();
+        Collections.reverse(ALPHABET);
 
 
         try (BufferedReader readeOfCodingFile = newBufferedReader(Path.of(parameters[0]));
              BufferedWriter writeOfEncodingFile = newBufferedWriter(Path.of(parameters[1]))) {
-
-            Collections.reverse(ALPHABET);
 
 
             while (readeOfCodingFile.ready()) {
@@ -46,13 +45,13 @@ public class BruteForce implements Action {
 
             while (true) {
 
-
-                for (Character element : listCharText) {
+                for (char element : listCharText) {
                     encryptedChar = ALPHABET.get((ALPHABET.indexOf(element) + hackKey) % ALPHABET.size());
                     str.append(encryptedChar);
                 }
 
                 String strRes = str.toString();
+
 
                 for (String s : DICTIONARY) {
                     if (strRes.contains(s)) {
@@ -60,7 +59,7 @@ public class BruteForce implements Action {
                     }
                 }
 
-                if (hitCounter > 5) {
+                if (hitCounter > 3) {
                     writeOfEncodingFile.write(strRes);
                     break;
                 } else {

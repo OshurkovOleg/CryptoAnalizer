@@ -74,7 +74,7 @@ public class ConsoleRunner {
                         System.exit(0);
                     } else if (args[3].isEmpty()) {
                         System.out.println("Нельзя шифровать без ключа, повторите ввод.");
-                    } else if (Integer.parseInt(args[3]) < 0 || Integer.parseInt(args[3]) > (ALPHABET.size() - 1)) {
+                    } else if (Integer.parseInt(args[3]) < 0 || Integer.parseInt(args[3]) > (ALPHABET.size())) {
                         System.out.println("Пожалуйста." + KEY_ENCRYPTION);
                     } else {
                         break;
@@ -124,7 +124,7 @@ public class ConsoleRunner {
                         System.exit(0);
                     } else if (args[3].isEmpty()) {
                         System.out.println("Нельзя шифровать без ключа, повторите ввод.");
-                    } else if (Integer.parseInt(args[3]) < 0 || Integer.parseInt(args[3]) > (ALPHABET.size() - 1)) {
+                    } else if (Integer.parseInt(args[3]) < 0 || Integer.parseInt(args[3]) > (ALPHABET.size())) {
                         System.out.println("Пожалуйста." + KEY_ENCRYPTION);
                     } else {
                         break;
@@ -174,11 +174,7 @@ public class ConsoleRunner {
             Result result = application.run(args);
             System.out.println(result);
 
-            System.out.println("Для выхода укажите команду exit, чтобы продолжить нажмите enter");
 
-            if (scanner.nextLine().equalsIgnoreCase("exit")) {
-                System.exit(0);
-            }
 
         }
     }
