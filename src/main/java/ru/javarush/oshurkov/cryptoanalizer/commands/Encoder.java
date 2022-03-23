@@ -19,11 +19,9 @@ public class Encoder implements Action {
     @Override
     public Result execute(String[] parameters) {
 
-        Path pathOfFileForReader = Path.of("text\\" + parameters[0]);
-        Path pathOfFileForWrite = Path.of("text\\" + parameters[1]);
 
-        try (BufferedReader readerOfFile = newBufferedReader(pathOfFileForReader);
-             BufferedWriter writeOfFile = newBufferedWriter(pathOfFileForWrite)) {
+        try (BufferedReader readerOfFile = newBufferedReader(Path.of(parameters[0]));
+             BufferedWriter writeOfFile = newBufferedWriter(Path.of(parameters[1]))) {
 
             char encryptedChar;
 

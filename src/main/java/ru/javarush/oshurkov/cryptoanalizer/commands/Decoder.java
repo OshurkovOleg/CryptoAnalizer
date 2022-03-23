@@ -19,11 +19,8 @@ public class Decoder implements Action {
     @Override
     public Result execute(String[] parameters) {
 
-        Path pathOfFileForReader = Path.of("text\\" + parameters[0]);
-        Path pathOfFileForWrite = Path.of("text\\" + parameters[1]);
-
-        try (BufferedReader readeOfCodingFile = newBufferedReader(pathOfFileForReader);
-             BufferedWriter writeOfEncodingFile = newBufferedWriter(pathOfFileForWrite)) {
+        try (BufferedReader readeOfCodingFile = newBufferedReader(Path.of(parameters[0]));
+             BufferedWriter writeOfEncodingFile = newBufferedWriter(Path.of(parameters[1]))) {
 
             Collections.reverse(ALPHABET);
             char encryptedChar;

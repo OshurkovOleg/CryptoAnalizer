@@ -1,6 +1,5 @@
 package ru.javarush.oshurkov.cryptoanalizer.constants;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,5 +11,14 @@ public class Constants {
             ':', '!', '?', ' ');
 
     public static final List<String> DICTIONARY = Arrays.asList("но ", "если ", "то ", " к ", " по ", " и ", " пр");
+
+    public static final String ENTER_COMMAND = "Укажите команду: ";
+    public static final String FILE_EXECUTION = "Укажите путь до файла исполнения: ";
+    public static final String FILE_SAVE_RESULT = "Укажите путь до файла с результатом: ";
+    public static final String KEY_ENCRYPTION = "Укажите ключ шифрования от 0 до " + (ALPHABET.size() - 1) + ": "  ;
+    public static final String PATH_TO_DEFAULT_TEXT = "text\\text.txt";
+    public static final String PATH_TO_DEFAULT_ENCRYPTION = "text\\encrypted.txt";
+    public static final String PATH_TO_DEFAULT_DECRYPTION = "text\\decrypted.txt";
+    public static final String PATH_TO_DEFAULT_BRUTEFORCE = "text\\bruteforce.txt";
 
 }
