@@ -29,12 +29,12 @@ public class BruteForce implements Action {
         int hackKey = 1;
         int hitCounter = 0;
         StringBuilder str = new StringBuilder();
-        Collections.reverse(ALPHABET);
 
 
         try (BufferedReader readeOfCodingFile = newBufferedReader(Path.of(parameters[0]));
              BufferedWriter writeOfEncodingFile = newBufferedWriter(Path.of(parameters[1]))) {
 
+        Collections.reverse(ALPHABET);
 
             while (readeOfCodingFile.ready()) {
                 char character = Character.toLowerCase((char) readeOfCodingFile.read());
@@ -74,6 +74,9 @@ public class BruteForce implements Action {
         } catch (IOException e) {
             throw new AppException("Проблема > " + e);
         }
-        return new Result("BruteForce complete", ResultCode.OK);
+
+        Collections.reverse(ALPHABET);
+
+        return new Result(" взлом кодированного текста ", ResultCode.OK);
     }
 }

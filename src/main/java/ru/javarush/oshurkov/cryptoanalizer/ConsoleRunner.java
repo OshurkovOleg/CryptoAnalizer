@@ -4,9 +4,12 @@ import static ru.javarush.oshurkov.cryptoanalizer.constants.Constants.*;
 
 import ru.javarush.oshurkov.cryptoanalizer.controllers.Actions;
 import ru.javarush.oshurkov.cryptoanalizer.entity.Result;
+import ru.javarush.oshurkov.cryptoanalizer.exceptions.AppException;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -14,44 +17,56 @@ public class ConsoleRunner {
 
 
     public static void main(String[] args) {
+
         args = new String[4];
         Scanner scanner = new Scanner(System.in);
 
+        //welcome in programm
         System.out.println("Доброе пожаловать в программу шифрования");
         System.out.println("========================================\n");
         System.out.println("Укажите одну из доступных команд: " + Actions.ENCODE + ", "
                 + Actions.DECODE + ", "
                 + Actions.BRUTEFORCE + ", для выхода exit. \n");
 
+
+        // command request
         while (true) {
-
             System.out.print(ENTER_COMMAND);
-            args[0] = scanner.nextLine();
+            args[0] = scanner.nextLine().toLowerCase();
 
-            if (args[0].equalsIgnoreCase("exit")) {
+            if (args[0].equals("exit")) {
                 System.exit(0);
             }
 
+            // checking the command entered
 
-            //command encode
-            if (args[0].equalsIgnoreCase("encode")) {
-                while (true) {
-                    System.out.print(FILE_EXECUTION);
-                    args[1] = scanner.nextLine();
+            if (!(args[0].equals("encode") || args[0].equals("decode") || args[0].equals("bruteforce"))) {
+                System.out.println("Команда не обнаружена, повторите попытку.\n");
+            } else {
 
-                    if (args[1].equalsIgnoreCase("exit")) {
-                        System.exit(0);
-                    } else if (args[1].isEmpty()) {
-                        args[1] = PATH_TO_DEFAULT_TEXT;
-                        break;
-                    } else if (!Files.exists(Path.of(args[1]))) {
-                        System.out.println("По указанному пути файл не существует, повторите попытку");
-                    } else {
-                        break;
+                //command Encode
+
+                //read file
+                if (args[0].equalsIgnoreCase("encode")) {
+                    while (true) {
+                        System.out.print(FILE_EXECUTION);
+                        args[1] = scanner.nextLine();
+
+                        if (args[1].equalsIgnoreCase("exit")) {
+                            System.exit(0);
+                        } else if (args[1].isEmpty()) {
+                            args[1] = PATH_TO_DEFAULT_TEXT;
+                            break;
+                        } else if (!Files.exists(Path.of(args[1]))) {
+                            System.out.println("По указанному пути файл не существует, повторите попытку.\n");
+                        } else {
+                            break;
+                        }
                     }
-                }
 
-                while (true) {
+
+                    //write file
+
                     System.out.print(FILE_SAVE_RESULT);
                     args[2] = scanner.nextLine();
 
@@ -59,49 +74,56 @@ public class ConsoleRunner {
                         System.exit(0);
                     } else if (args[2].isEmpty()) {
                         args[2] = PATH_TO_DEFAULT_ENCRYPTION;
-                        break;
                     } else if (!Files.exists(Path.of(args[2]))) {
-                        System.out.println("По указанному пути файл не существует, повторите попытку");
-                    } else {
-                        break;
+                        try {
+                            Files.createFile(Path.of(args[2]));
+                        } catch (IOException e) {
+                            throw new AppException("Проблема при создании файла > " + e);
+                        }
+                        System.out.println("По указанному пути файл не существует, мы создали его для вас.\n");
+                    }
+
+
+                    //get crypto-key
+
+                    while (true) {
+                        System.out.print(KEY_ENCRYPTION);
+                        args[3] = scanner.nextLine();
+                        if (args[3].equalsIgnoreCase("exit")) {
+                            System.exit(0);
+                        } else if (args[3].isEmpty()) {
+                            System.out.println("Нельзя шифровать без ключа, повторите ввод.\n");
+                        } else if (Integer.parseInt(args[3]) < 0 || Integer.parseInt(args[3]) > (ALPHABET.size() - 1)) {
+                            System.out.println("Указанное значение не доступно. \n" );
+                        } else {
+                            break;
+                        }
                     }
                 }
 
-                while (true) {
-                    System.out.print(KEY_ENCRYPTION);
-                    args[3] = scanner.nextLine();
-                    if (args[3].equalsIgnoreCase("exit")) {
-                        System.exit(0);
-                    } else if (args[3].isEmpty()) {
-                        System.out.println("Нельзя шифровать без ключа, повторите ввод.");
-                    } else if (Integer.parseInt(args[3]) < 0 || Integer.parseInt(args[3]) > (ALPHABET.size())) {
-                        System.out.println("Пожалуйста." + KEY_ENCRYPTION);
-                    } else {
-                        break;
+
+                //command Decode
+
+                //read file
+                if (args[0].equalsIgnoreCase("decode")) {
+                    while (true) {
+                        System.out.print(FILE_EXECUTION);
+                        args[1] = scanner.nextLine();
+
+                        if (args[1].equalsIgnoreCase("exit")) {
+                            System.exit(0);
+                        } else if (args[1].isEmpty()) {
+                            args[1] = PATH_TO_DEFAULT_ENCRYPTION;
+                            break;
+                        } else if (!Files.exists(Path.of(args[1]))) {
+                            System.out.println("По указанному пути файл не существует, повторите попытку.\n");
+                        } else {
+                            break;
+                        }
                     }
-                }
-            }
 
-            //command decode
 
-            if (args[0].equalsIgnoreCase("decode")) {
-                while (true) {
-                    System.out.print(FILE_EXECUTION);
-                    args[1] = scanner.nextLine();
-
-                    if (args[1].equalsIgnoreCase("exit")) {
-                        System.exit(0);
-                    } else if (args[1].isEmpty()) {
-                        args[1] = PATH_TO_DEFAULT_ENCRYPTION;
-                        break;
-                    } else if (!Files.exists(Path.of(args[1]))) {
-                        System.out.println("По указанному пути файл не существует, повторите попытку");
-                    } else {
-                        break;
-                    }
-                }
-
-                while (true) {
+                    //write file
                     System.out.print(FILE_SAVE_RESULT);
                     args[2] = scanner.nextLine();
 
@@ -109,49 +131,54 @@ public class ConsoleRunner {
                         System.exit(0);
                     } else if (args[2].isEmpty()) {
                         args[2] = PATH_TO_DEFAULT_DECRYPTION;
-                        break;
                     } else if (!Files.exists(Path.of(args[2]))) {
-                        System.out.println("По указанному пути файл не существует, повторите попытку");
-                    } else {
-                        break;
+                        try {
+                            Files.createFile(Path.of(args[2]));
+                        } catch (IOException e) {
+                            throw new AppException("Проблема при создании файла > " + e);
+                        }
+                        System.out.println("По указанному пути файл не существует, мы создали его для вас.\n");
+                    }
+
+
+                    // get crypto-key
+                    while (true) {
+                        System.out.print(KEY_ENCRYPTION);
+                        args[3] = scanner.nextLine();
+                        if (args[3].equalsIgnoreCase("exit")) {
+                            System.exit(0);
+                        } else if (args[3].isEmpty()) {
+                            System.out.println("Нельзя шифровать без ключа, повторите ввод.\n");
+                        } else if (Integer.parseInt(args[3]) < 0 || Integer.parseInt(args[3]) > (ALPHABET.size() - 1)) {
+                            System.out.println("Пожалуйста." + KEY_ENCRYPTION);
+                        } else {
+                            break;
+                        }
                     }
                 }
 
-                while (true) {
-                    System.out.print(KEY_ENCRYPTION);
-                    args[3] = scanner.nextLine();
-                    if (args[3].equalsIgnoreCase("exit")) {
-                        System.exit(0);
-                    } else if (args[3].isEmpty()) {
-                        System.out.println("Нельзя шифровать без ключа, повторите ввод.");
-                    } else if (Integer.parseInt(args[3]) < 0 || Integer.parseInt(args[3]) > (ALPHABET.size())) {
-                        System.out.println("Пожалуйста." + KEY_ENCRYPTION);
-                    } else {
-                        break;
+
+                //command BruteForce
+
+                //read file
+                if (args[0].equalsIgnoreCase("bruteforce")) {
+                    while (true) {
+                        System.out.print(FILE_EXECUTION);
+                        args[1] = scanner.nextLine();
+
+                        if (args[1].equalsIgnoreCase("exit")) {
+                            System.exit(0);
+                        } else if (args[1].isEmpty()) {
+                            args[1] = PATH_TO_DEFAULT_ENCRYPTION;
+                            break;
+                        } else if (!Files.exists(Path.of(args[1]))) {
+                            System.out.println("По указанному пути файл не существует, повторите попытку.\n");
+                        } else {
+                            break;
+                        }
                     }
-                }
-            }
 
-            //command bruteforce
-
-            if (args[0].equalsIgnoreCase("bruteforce")) {
-                while (true) {
-                    System.out.print(FILE_EXECUTION);
-                    args[1] = scanner.nextLine();
-
-                    if (args[1].equalsIgnoreCase("exit")) {
-                        System.exit(0);
-                    } else if (args[1].isEmpty()) {
-                        args[1] = PATH_TO_DEFAULT_ENCRYPTION;
-                        break;
-                    } else if (!Files.exists(Path.of(args[1]))) {
-                        System.out.println("По указанному пути файл не существует, повторите попытку");
-                    } else {
-                        break;
-                    }
-                }
-
-                while (true) {
+                    //write file
                     System.out.print(FILE_SAVE_RESULT);
                     args[2] = scanner.nextLine();
 
@@ -159,22 +186,23 @@ public class ConsoleRunner {
                         System.exit(0);
                     } else if (args[2].isEmpty()) {
                         args[2] = PATH_TO_DEFAULT_BRUTEFORCE;
-                        break;
                     } else if (!Files.exists(Path.of(args[2]))) {
-                        System.out.println("По указанному пути файл не существует, повторите попытку");
-                    } else {
-                        break;
+                        try {
+                            Files.createFile(Path.of(args[2]));
+                        } catch (IOException e) {
+                            throw new AppException("Проблема при создании файла > " + e);
+                        }
+                        System.out.println("По указанному пути файл не существует, мы создали его для вас.\n");
                     }
                 }
+
+
+                //encode text.txt encode.txt 12
+                Application application = new Application();
+                Result result = application.run(args);
+                System.out.println(result);
+                System.out.println("\n");
             }
-
-
-            //encode text.txt encode.txt 12
-            Application application = new Application();
-            Result result = application.run(args);
-            System.out.println(result);
-
-
 
         }
     }

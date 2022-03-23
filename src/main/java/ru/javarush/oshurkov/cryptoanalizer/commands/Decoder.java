@@ -39,7 +39,8 @@ public class Decoder implements Action {
             throw new AppException("Проблема > " + e);
         }
 
-        return new Result("decode all right", ResultCode.OK);
+        Collections.reverse(ALPHABET);
+        return new Result(" декодирование текста ", ResultCode.OK);
     }
 
 }

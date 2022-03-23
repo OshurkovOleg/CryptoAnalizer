@@ -38,7 +38,7 @@ public class Encoder implements Action {
         } catch (IOException e) {
             throw new AppException("Проблема > " + e);
         }
-        return new Result("encode all right", ResultCode.OK);
+        return new Result(" кодирование текста ", ResultCode.OK);
     }
 }
 
