@@ -9,7 +9,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static java.nio.file.Files.newBufferedReader;
@@ -25,7 +24,8 @@ public class BruteForce implements Action {
 
 
         List<Character> listCharText = new ArrayList<>();
-        char encryptedChar;
+        int encryptedChar;
+        int positionCharAfterTurn;
         int hackKey = 1;
         int hitCounter = 0;
         StringBuilder str = new StringBuilder();
@@ -34,7 +34,6 @@ public class BruteForce implements Action {
         try (BufferedReader readeOfCodingFile = newBufferedReader(Path.of(parameters[0]));
              BufferedWriter writeOfEncodingFile = newBufferedWriter(Path.of(parameters[1]))) {
 
-        Collections.reverse(ALPHABET);
 
             while (readeOfCodingFile.ready()) {
                 char character = Character.toLowerCase((char) readeOfCodingFile.read());
@@ -45,9 +44,15 @@ public class BruteForce implements Action {
 
             while (true) {
 
-                for (char element : listCharText) {
-                    encryptedChar = ALPHABET.get((ALPHABET.indexOf(element) + hackKey) % ALPHABET.size());
-                    str.append(encryptedChar);
+                for (char characterFromList : listCharText) {
+                    positionCharAfterTurn = (ALPHABET.indexOf(characterFromList) - hackKey);
+
+                    if (positionCharAfterTurn < 0) {
+                        encryptedChar = ALPHABET.size() - (positionCharAfterTurn * -1);
+                    } else {
+                        encryptedChar = positionCharAfterTurn;
+                    }
+                    str.append(ALPHABET.get(encryptedChar));
                 }
 
                 String strRes = str.toString();
@@ -75,7 +80,6 @@ public class BruteForce implements Action {
             throw new AppException("Проблема > " + e);
         }
 
-        Collections.reverse(ALPHABET);
 
         return new Result(" взлом кодированного текста ", ResultCode.OK);
     }
